@@ -1,0 +1,16 @@
+Model,Feature Set,Accuracy,Precision,Recall,F1 Score
+Logistic Regression,Full (with port/proto/conn_state),0.9991,0.9991,0.9991,0.9991
+Decision Tree,Full (with port/proto/conn_state),0.9991,0.9991,0.9991,0.9991
+Random Forest,Full (with port/proto/conn_state),0.9991,0.9991,0.9991,0.9991
+XGBoost,Full (with port/proto/conn_state),0.9991,0.9991,0.9991,0.9991
+LightGBM,Full (with port/proto/conn_state),0.9991,0.9991,0.9991,0.9991
+Logistic Regression,Behavioral (IPs kept),0.8441,0.8693,0.8441,0.7961
+Decision Tree,Behavioral (IPs kept),0.9934,0.9934,0.9934,0.9934
+Random Forest,Behavioral (IPs kept),0.9944,0.9944,0.9944,0.9944
+XGBoost,Behavioral (IPs kept),0.9972,0.9972,0.9972,0.9972
+LightGBM,Behavioral (IPs kept),0.9972,0.9972,0.9972,0.9972
+Logistic Regression,Behavioral (strict),0.8141,0.8487,0.8141,0.7334
+Decision Tree,Behavioral (strict),0.9944,0.9944,0.9944,0.9944
+Random Forest,Behavioral (strict),0.9944,0.9944,0.9944,0.9944
+XGBoost,Behavioral (strict),0.9962,0.9962,0.9962,0.9962
+LightGBM,Behavioral (strict),0.9962,0.9962,0.9962,0.9962

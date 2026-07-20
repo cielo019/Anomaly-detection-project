@@ -1,0 +1,6 @@
+Model,F1 (Normal),F1 (Behavioral Shuffled),F1 Drop
+Logistic Regression,0.7334,0.7293,0.0041
+Decision Tree,0.9944,0.7189,0.2755
+Random Forest,0.9944,0.723,0.2713
+XGBoost,0.9962,0.6928,0.3035
+LightGBM,0.9962,0.6928,0.3035
