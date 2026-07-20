@@ -1,0 +1,6 @@
+Model,Mean F1 (Full),Mean F1 (No Port),Std F1 (Full),Std F1 (No Port),p-value
+Logistic Regression,0.99848,0.99823,0.0002,0.00018,0.00087
+Decision Tree,0.99982,0.99977,7e-05,8e-05,0.03179
+Random Forest,0.9999,0.99983,4e-05,9e-05,0.00201
+XGBoost,0.99995,0.99995,2e-05,3e-05,0.61929
+LightGBM,0.99993,0.99992,3e-05,6e-05,0.25979
