@@ -63,7 +63,22 @@ column_names = [
 ]
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-csv_path = os.path.join(script_dir, "netsec.csv")
+project_dir = os.path.dirname(script_dir)
+candidate_paths = [
+    os.path.join(script_dir, "netsec.csv"),
+    os.path.join(project_dir, "netsec.csv"),
+    os.path.join(project_dir, "Datasets", "netsec.csv"),
+    os.path.join(script_dir, "..", "Datasets", "netsec.csv"),
+]
+
+csv_path = None
+for path in candidate_paths:
+    if os.path.exists(path):
+        csv_path = path
+        break
+
+if csv_path is None:
+    raise FileNotFoundError(f"Could not find netsec.csv. Checked: {candidate_paths}")
 
 df = pd.read_csv(
     csv_path, sep="\t", header=None, names=column_names,
@@ -271,33 +286,49 @@ print("at inference time, not just happens to be correlated with them.")
 # STEP 5 - GROUPED TRAIN/TEST SPLIT (REAL GENERALIZATION TEST)
 # ==========================================
 
+GROUP_NAME = "id.orig_p + id.resp_p"
+
 print("\n" + "=" * 60)
-print(f"STEP 5: Grouped split by '{GROUP_COL}' (ports unseen at train time)")
+print(f"STEP 5: Grouped split by '{GROUP_NAME}' (port pairs unseen at train time)")
 print("=" * 60)
 
-groups = df[GROUP_COL]
-gss = GroupShuffleSplit(n_splits=1, test_size=0.20, random_state=RANDOM_STATE)
+# Create one group for each source-destination port pair
+groups = (
+    df["id.orig_p"].astype(str) + "_" +
+    df["id.resp_p"].astype(str)
+)
+
+gss = GroupShuffleSplit(
+    n_splits=1,
+    test_size=0.20,
+    random_state=RANDOM_STATE
+)
+
 train_idx, test_idx = next(gss.split(X_full, y, groups=groups))
 
 X_train_g, X_test_g = X_full.iloc[train_idx], X_full.iloc[test_idx]
 y_train_g, y_test_g = y.iloc[train_idx], y.iloc[test_idx]
 
+# Check that no port pair appears in both train and test
 overlap = set(groups.iloc[train_idx]) & set(groups.iloc[test_idx])
-print(f"Port values shared between train and test: {len(overlap)} (should be 0)")
+print(f"Port pairs shared between train and test: {len(overlap)} (should be 0)")
 
 step5_results = []
+
 for name, model in make_models().items():
     model.fit(X_train_g, y_train_g)
     y_pred = model.predict(X_test_g)
     step5_results.append({"Model": name, **score(y_test_g, y_pred)})
 
 step5_df = pd.DataFrame(step5_results).round(4)
-print("\nPerformance on completely unseen ports:")
-print(step5_df)
-step5_df.to_csv("Step5_GroupedSplit_Results.csv", index=False)
-print("\nCompare this against the original random-split results (~0.999 F1).")
-print("A large drop here is the clearest evidence of port-based shortcut learning.")
 
+print("\nPerformance on completely unseen port pairs:")
+print(step5_df)
+
+step5_df.to_csv("Step5_GroupedSplit_Results.csv", index=False)
+
+print("\nCompare this against the original random-split results.")
+print("A large performance drop would indicate that the models relied on memorizing port combinations rather than learning general attack behaviour.")
 
 # ==========================================
 # STEP 6 - MULTI-SEED REPEAT + SIGNIFICANCE TEST

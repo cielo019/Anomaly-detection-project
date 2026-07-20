@@ -1,0 +1,6 @@
+Model,Accuracy,Precision,Recall,F1 Score
+Logistic Regression,1.0,1.0,1.0,1.0
+Decision Tree,1.0,1.0,1.0,1.0
+Random Forest,1.0,1.0,1.0,1.0
+XGBoost,1.0,1.0,1.0,1.0
+LightGBM,1.0,1.0,1.0,1.0

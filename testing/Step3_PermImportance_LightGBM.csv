@@ -1,0 +1,16 @@
+Feature,Importance Mean,Importance Std
+id.resp_p,0.2469820356571261,0.01037079788705761
+id.orig_p,0.001413768667605586,0.0007586472260124839
+conn_state,0.0005639161551499683,0.0004604356126098582
+id.resp_h,0.0,0.0
+service,0.0,0.0
+duration,0.0,0.0
+id.orig_h,0.0,0.0
+orig_pkts,0.0,0.0
+orig_bytes,0.0,0.0
+resp_bytes,0.0,0.0
+missed_bytes,0.0,0.0
+resp_pkts,0.0,0.0
+orig_ip_bytes,0.0,0.0
+resp_ip_bytes,0.0,0.0
+proto,-0.0003752296054868598,0.0004595605349143208
